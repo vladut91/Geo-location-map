@@ -1,0 +1,73 @@
+﻿@model TeamProject.Models.geoLocation
+
+
+@{
+    ViewBag.Title = "Details";
+    <script type="text/javascript"  
+    src="http://api.maps.yahoo.com/ajaxymap?v=3.8&appid=YD-eQRpTl0_JX2E95l_xAFs5UwZUlNQhhn7lj1H"></script>  
+    <style type="text/css">  
+        #map{  
+            height: 500px;  
+            width: 800px;  
+            }  
+
+    </style>  
+}
+<h2>Details</h2>
+
+<fieldset>
+    <legend>geoLocation</legend>
+
+    <div class="display-label"><strong>URL:</strong> @Html.DisplayFor(model => model.URL)</div>
+   
+    <div class="display-label"><strong>IP:</strong> @Html.DisplayFor(model => model.IP)</div>
+    
+    <div class="display-label"><strong>Latitude:</strong> @Html.DisplayFor(model => model.Latitude)</div>
+    
+    <div class="display-label"><strong>Longitude:</strong> @Html.DisplayFor(model => model.Longitute)</div>
+   
+    <div class="display-label"><strong>Country:</strong> @Html.DisplayFor(model => model.Country)</div>
+    
+    <div class="display-label"><strong>City:</strong>  @Html.DisplayFor(model => model.City)</div>
+    
+    <div class="display-label"><strong>PostalCode:</strong> @Html.DisplayFor(model => model.PostalCode)</div>
+   
+    <div class="display-label"><strong>Region:</strong> @Html.DisplayFor(model => model.Region)</div>
+    
+    <div class="display-label"><strong>Country Code:</strong> @Html.DisplayFor(model => model.CountryCode)</div>
+    
+</fieldset>
+
+        <fieldset>
+            <legend>Info</legend>
+            <div class="editor-label"><strong>URL:</strong>@Html.DisplayFor(model => model.URL)<br/><strong>IP: </strong>@Html.DisplayFor(model => model.IP) <strong>Latitude: </strong><span id="Latitude">@Html.DisplayFor(model => model.Latitude)   </span><strong>Longitude: </strong><span id="Longitude">@Html.DisplayFor(model => model.Longitute)</span></div>
+            <div id="map"></div>
+           
+            <script type="text/javascript">
+                $(function createMap() {
+                    // Create a map object
+                    var map = new YMap(document.getElementById('map'));
+                    var latitudeMine = document.getElementById("Latitude").innerHTML;
+                    var longitudeMine = document.getElementById("Longitude").innerHTML;
+                    // Add map type control  
+                    map.addTypeControl();
+
+                    // Set map type to either of: YAHOO_MAP_SAT, YAHOO_MAP_HYB, YAHOO_MAP_REG  
+                    map.setMapType(YAHOO_MAP_REG);
+
+                    // Display the map centered on a geocoded location 
+                    var currentGeoPoint = new YGeoPoint(latitudeMine, longitudeMine);
+                    map.addMarker(currentGeoPoint);
+                    var locationMine = latitudeMine.toString() + "," + longitudeMine.toString();
+                    //alert(locationMine.toString());
+                    map.drawZoomAndCenter(locationMine, 2);
+                });
+
+                createMap();
+            </script>
+           
+        </fieldset>
+      
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

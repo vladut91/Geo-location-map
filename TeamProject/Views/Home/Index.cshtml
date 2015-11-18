@@ -1,0 +1,56 @@
+﻿@*@model IEnumerable<TeamProject.Models.locationDataContext>*@
+@{
+    ViewBag.Title = "GeoLocation";
+    <script type="text/javascript"  
+    src="http://api.maps.yahoo.com/ajaxymap?v=3.8&appid=YD-eQRpTl0_JX2E95l_xAFs5UwZUlNQhhn7lj1H"></script>  
+    <style type="text/css">  
+        #map{  
+            height: 500px;  
+            width: 800px;  
+            }  
+
+    </style>  
+}
+
+<h2>Find URL position on map</h2>
+@using (Html.BeginForm("Index", "Home"))
+{
+    <p>
+        Enter the desired URL:<br />
+        <input type="text" name="urlEnter" id="urlEnter" value="" />
+        <input type="submit" value="GO" />
+    </p>
+}
+    
+@*@foreach (var item in Model)
+{*@
+        <fieldset>
+            <legend>Info</legend>
+            <div class="editor-label"><strong>URL:</strong>@ViewData["URL"]<br/><strong>IP: </strong>@ViewData["IP"] <strong>Latitude: </strong><span id="Latitude">@ViewData["Latitude"]   </span><strong>Longitude: </strong><span id="Longitude">@ViewData["Longitude"]</span></div>
+            <div id="map"></div>
+            <script type="text/javascript">
+                $(function createMap () {
+                    // Create a map object
+                    var map = new YMap(document.getElementById('map'));
+                    var latitudeMine = document.getElementById("Latitude").innerHTML;
+                    var longitudeMine = document.getElementById("Longitude").innerHTML;
+                    // Add map type control  
+                    map.addTypeControl();
+
+                    // Set map type to either of: YAHOO_MAP_SAT, YAHOO_MAP_HYB, YAHOO_MAP_REG  
+                    map.setMapType(YAHOO_MAP_REG);
+
+                    // Display the map centered on a geocoded location 
+                    var currentGeoPoint = new YGeoPoint(latitudeMine, longitudeMine);
+                    map.addMarker(currentGeoPoint);
+                    var locationMine = latitudeMine.toString() + "," + longitudeMine.toString();
+                    //alert(locationMine.toString());
+                    map.drawZoomAndCenter(locationMine, 2);
+                });
+
+                createMap();
+            </script>
+           
+        </fieldset>
+      
+
